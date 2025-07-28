@@ -1,0 +1,11 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-mdc-raised-button.mat-primary{--mdc-protected-button-container-color:#b5513f !important;--mdc-protected-button-label-text-color:#fff}

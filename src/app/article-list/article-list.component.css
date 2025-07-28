@@ -1,0 +1,71 @@
+.article-container {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.header-title {
+  color: #39393a;
+  font-weight: 400;
+  margin-bottom: 20px;
+
+}
+
+.styled-table {
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+mat-header-row,
+mat-header-cell {
+  background-color: #b5513f !important;
+  color: white !important;
+  font-weight: 400;
+}
+
+mat-row,
+mat-cell {
+  background-color: #f5f5f5 !important;
+}
+
+.table-row:hover {
+  background-color: #e0e0e0 !important;
+  cursor: pointer;
+}
+
+mat-cell, mat-header-cell {
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+} 
+
+.mat-sort-header-arrow {
+  color: #fff !important; 
+}
+
+/* Optional: Change sort arrow color when active */
+.mat-sort-header-sorted .mat-sort-header-arrow {
+  color: #fff !important; 
+}
+
+.mat-sort-header-pointer-left, .mat-sort-header-pointer-right {
+    background: #fff !important;
+
+}
+
+.add-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px 0;
+}
+
+.add-button-container button {
+  height: 50px;
+  width: 150px;
+}
+
+.mat-mdc-raised-button.mat-primary{--mdc-protected-button-container-color:#b5513f !important;--mdc-protected-button-label-text-color:#fff}
