@@ -6,12 +6,13 @@ import { CreateArticleDto } from '../models/article.create.model';
 import { UpdateArticleDto } from '../models/article.update.model';
 import { Item } from '../models/item.model';
 import { ArticleDetail } from '../models/article.detail.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleService {
-  private baseAddress = 'http://localhost:5132/api/articles';
+  private readonly baseAddress = `${environment.apiBaseUrl}/articles`;
 
   constructor(private http: HttpClient) {}
 
