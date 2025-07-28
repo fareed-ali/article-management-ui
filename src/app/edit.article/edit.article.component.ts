@@ -14,15 +14,15 @@ import { UpdateArticleDto } from '../models/article.update.model';
 export class EditArticleComponent implements OnInit {
   articleForm!: FormGroup;
   formErrors: { [key: string]: string[] } = {};
+    articleCategories = this.articleService.getArticleCategories();
+  bicycleCategories = this.articleService.getBicycleCategories();
 
   constructor(
     private fb: FormBuilder,
     private articleService: ArticleService,
     private dialogRef: MatDialogRef<EditArticleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      article: UpdateArticleDto,
-      articleCategories: Item[],
-      bicycleCategories: Item[]
+      article: UpdateArticleDto
     }
   ) {}
 

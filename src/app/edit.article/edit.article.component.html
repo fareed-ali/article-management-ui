@@ -42,7 +42,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Article Category</mat-label>
       <mat-select formControlName="articleCategoryId">
-        <mat-option *ngFor="let c of data.articleCategories" [value]="c.id">{{ c.name }}</mat-option>
+        <mat-option *ngFor="let c of articleCategories" [value]="c.id">{{ c.name }}</mat-option>
       </mat-select>
       <mat-error *ngFor="let msg of getErrorMessages('ArticleCategoryId')">{{ msg }}</mat-error>
     </mat-form-field>
@@ -50,7 +50,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Bicycle Category</mat-label>
       <mat-select formControlName="bicycleCategoryId">
-        <mat-option *ngFor="let c of data.bicycleCategories" [value]="c.id">{{ c.name }}</mat-option>
+        <mat-option *ngFor="let c of bicycleCategories" [value]="c.id">{{ c.name }}</mat-option>
       </mat-select>
       <mat-error *ngFor="let msg of getErrorMessages('BicycleCategoryId')">{{ msg }}</mat-error>
     </mat-form-field>

@@ -1,17 +1,11 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { ArticleService } from 'src/app/services/article.service';
 import { Article } from '../models/article.list.model';
-import { Item } from '../models/item.model';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateArticleDto } from '../models/article.create.model';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
 import { AddArticleComponent } from '../add.article/add.article.component';
 import { EditArticleComponent } from '../edit.article/edit.article.component';
-
 
 
 @Component({
@@ -19,26 +13,16 @@ import { EditArticleComponent } from '../edit.article/edit.article.component';
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.css']
 })
+
 export class ArticleListComponent implements OnInit  {
 
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private articleService: ArticleService, private dialog: MatDialog) {}
 
-   articleCategories = [
-      { id: 0, name: 'All' },
-      { id: 1, name: 'Hub' },
-      { id: 2, name: 'Crank arm' }
-    ];
+   articleCategories = this.articleService.getArticleCategories();
+  bicycleCategories = this.articleService.getBicycleCategories();
 
-  bicycleCategories = [
-      { id: 1, name: 'e-City' },
-      { id: 2, name: 'Road' },
-      { id: 3, name: 'e-Trekking' },
-      { id: 4, name: 'Gravel' },
-      { id: 5, name: 'Foldable' }
-    ];
 
- //articles: Article[] = [];
   displayedColumns: string[] = [
     'number',
     'name',
@@ -49,12 +33,13 @@ export class ArticleListComponent implements OnInit  {
     'actions'
   ];
 
-allArticles: Article[] = [];
+  allArticles: Article[] = [];
 
 
 articlesDataSource = new MatTableDataSource<Article>();
-  
   ngOnInit(): void {
+
+    this.articleCategories.push({ id: 0, name: 'All' }); // Default Selected for search filter
     this.fetchArticles();
   }
 
@@ -72,30 +57,18 @@ articlesDataSource = new MatTableDataSource<Article>();
   }
 
 
-
-
-  applyFilters(eventData: { articleCategoryId: number, bicycleCategoryIds: number[] }) {
+applyFilters(eventData: { articleCategoryId: number, bicycleCategoryIds: number[] }) {
   
-const { articleCategoryId, bicycleCategoryIds } = eventData;
+    const { articleCategoryId, bicycleCategoryIds } = eventData;
+    const filtered = this.allArticles.filter(article => {
+      const matchesArticleCategory =
+        articleCategoryId == 0 ? true : article.articleCategoryId === articleCategoryId;
 
+      const matchesBicycleCategory =
+        bicycleCategoryIds.length === 0 ? true : bicycleCategoryIds.includes(article.bicycleCategoryId);
 
-
-// Show all if no filters selected
-  // if (articleCategoryId === 0 && bicycleCategoryIds.length === 0) {
-  //   this.articlesDataSource.data = this.allArticles;
-  //   return;
-  // }
-
-
-  const filtered = this.allArticles.filter(article => {
-    const matchesArticleCategory =
-      articleCategoryId == 0 ? true : article.articleCategoryId === articleCategoryId;
-
-    const matchesBicycleCategory =
-      bicycleCategoryIds.length === 0 ? true : bicycleCategoryIds.includes(article.bicycleCategoryId);
-
-    return matchesArticleCategory && matchesBicycleCategory;
-  });
+      return matchesArticleCategory && matchesBicycleCategory;
+    });
 
   this.articlesDataSource.data = filtered;
 }
@@ -109,26 +82,11 @@ openAddDialog() {
        bicycleCategories: this.bicycleCategories
      }
   });
-
-  // dialogRef.afterClosed().subscribe((result: CreateArticleDto) => {
-  //   if (result) {
-  //     this.articleService.createArticle(result).subscribe({
-  //       next: (newArticle) => {
-  //         this.fetchArticles(); // Reload data
-  //       },
-  //       error: (err) => console.error('Failed to create article:', err)
-  //     });
-  //   }
-  // });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // The dialog already handles validation.
-        // This block only runs if form was valid and dialog closed with article data.
         this.fetchArticles();
       }
     });
-
 }
 
 

@@ -12,20 +12,18 @@ import { ArticleService } from '../services/article.service';
   templateUrl: './add.article.component.html',
   styleUrls: ['./add.article.component.css']
 })
+
 export class AddArticleComponent implements OnInit {
 
- articleForm!: FormGroup;
+  articleForm!: FormGroup;
   formErrors: { [key: string]: string[] } = {};
-
+  articleCategories = this.articleService.getArticleCategories();
+  bicycleCategories = this.articleService.getBicycleCategories();
 
   constructor(
     private fb: FormBuilder,
     private articleService: ArticleService,
     public dialogRef: MatDialogRef<AddArticleComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      articleCategories: Item[],
-      bicycleCategories: Item[]
-    }
   ) {}
 
   
@@ -74,30 +72,4 @@ cancel(): void {
     return this.formErrors[field] || [];
   }
 
-// article: CreateArticleDto = {
-//     name: '',
-//     material: '',
-//     netWeight: 0,
-//     length: 0,
-//     width: 0,
-//     height: 0,
-//     articleCategoryId: 0,
-//     bicycleCategoryId: 0,
-//   };
-
-  // constructor(
-  //   public dialogRef: MatDialogRef<AddArticleComponent>,
-  //   @Inject(MAT_DIALOG_DATA) public data: {
-  //     articleCategories: Item[],
-  //     bicycleCategories: Item[]
-  //   }
-  // ) {}
-
-  // save() {
-  //   this.dialogRef.close(this.article);
-  // }
-
-  // cancel() {
-  //   this.dialogRef.close();
-  // }
 }
