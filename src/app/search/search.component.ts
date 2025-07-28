@@ -36,4 +36,11 @@ ngOnInit(): void {
     onSearch() : void {
      this.searchEmitter.emit({ articleCategoryId: this.selectedArticleCategory, bicycleCategoryIds: this.selectedBicycleCategories });
   }
+
+resetFilter(): void {
+  this.selectedArticleCategory = 0;
+  this.selectedBicycleCategories = [];
+  this.onSearch(); 
+}
+
 }

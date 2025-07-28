@@ -21,24 +21,46 @@ export class EditArticleComponent implements OnInit {
     private fb: FormBuilder,
     private articleService: ArticleService,
     private dialogRef: MatDialogRef<EditArticleComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      article: UpdateArticleDto
-    }
+    @Inject(MAT_DIALOG_DATA) public data: { id: number }
   ) {}
 
   ngOnInit(): void {
-    this.articleForm = this.fb.group({
-      number: [this.data.article.number],
-      name: [this.data.article.name, Validators.required],
-      material: [this.data.article.material],
-      netWeight: [this.data.article.netWeight],
-      length: [this.data.article.length],
-      width: [this.data.article.width],
-      height: [this.data.article.height],
-      articleCategoryId: [this.data.article.articleCategoryId, Validators.required],
-      bicycleCategoryId: [this.data.article.bicycleCategoryId, Validators.required],
-    });
+    // this.articleForm = this.fb.group({
+    //   number: [this.data.article.number],
+    //   name: [this.data.article.name, Validators.required],
+    //   material: [this.data.article.material],
+    //   netWeight: [this.data.article.netWeight],
+    //   length: [this.data.article.length],
+    //   width: [this.data.article.width],
+    //   height: [this.data.article.height],
+    //   articleCategoryId: [this.data.article.articleCategoryId, Validators.required],
+    //   bicycleCategoryId: [this.data.article.bicycleCategoryId, Validators.required],
+    // });
+    this.articleCategories = this.articleService.getArticleCategories();
+    this.bicycleCategories = this.articleService.getBicycleCategories();
+    this.showArticle(this.data.id);
   }
+
+ showArticle(id: number): void {
+  this.articleService.getArticle(id).subscribe({
+    next: (article) => {
+      this.articleForm = this.fb.group({
+        number: [article.number],
+        name: [article.name, Validators.required],
+        material: [article.material],
+        netWeight: [article.netWeight],
+        length: [article.length],
+        width: [article.width],
+        height: [article.height],
+        articleCategoryId: [article.articleCategoryId, Validators.required],
+        bicycleCategoryId: [article.bicycleCategoryId, Validators.required],
+      });
+    },
+    error: (err) => {
+      console.error('Failed to load article:', err);
+    }
+  });
+}
 
   save(): void {
     if (this.articleForm.valid) {

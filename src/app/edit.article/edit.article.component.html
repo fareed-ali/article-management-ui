@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Edit Article</h2>
 
-<form [formGroup]="articleForm" (ngSubmit)="save()">
+<form *ngIf="articleForm" [formGroup]="articleForm" (ngSubmit)="save()">
   <mat-dialog-content>
 
     <mat-form-field appearance="fill">

@@ -5,6 +5,7 @@ import { Article } from '../models/article.list.model';
 import { CreateArticleDto } from '../models/article.create.model';
 import { UpdateArticleDto } from '../models/article.update.model';
 import { Item } from '../models/item.model';
+import { ArticleDetail } from '../models/article.detail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ createArticle(article: CreateArticleDto): Observable<Article> {
     return this.http.put<void>(`${this.baseAddress}/${id}`, article);
   }
 
-  getArticle(id: number): Observable<UpdateArticleDto> {
-  return this.http.get<UpdateArticleDto>(`${this.baseAddress}/${id}`);
+  getArticle(id: number): Observable<ArticleDetail> {
+  return this.http.get<ArticleDetail>(`${this.baseAddress}/${id}`);
 }
 
 //Point: No need to use observable for categories as they are static

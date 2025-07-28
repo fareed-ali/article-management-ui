@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AddArticleComponent } from '../add.article/add.article.component';
 import { EditArticleComponent } from '../edit.article/edit.article.component';
-
+import { SearchComponent } from '../search/search.component'; 
 
 @Component({
   selector: 'app-article-list',
@@ -17,6 +17,8 @@ import { EditArticleComponent } from '../edit.article/edit.article.component';
 export class ArticleListComponent implements OnInit  {
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(SearchComponent) searchComponent!: SearchComponent;
+
   constructor(private articleService: ArticleService, private dialog: MatDialog) {}
 
    articleCategories = this.articleService.getArticleCategories();
@@ -73,16 +75,17 @@ applyFilters(eventData: { articleCategoryId: number, bicycleCategoryIds: number[
   this.articlesDataSource.data = filtered;
 }
  
+resetFilter(): void {
+    this.searchComponent.resetFilter();  // reset the filter UI and emit reset event
+    this.articlesDataSource.data = this.allArticles;  // reset data source to all articles
+  }
 
 openAddDialog() {
   const dialogRef = this.dialog.open(AddArticleComponent, {
     width: '500px',
-     data: {
-       articleCategories: this.articleCategories,
-       bicycleCategories: this.bicycleCategories
-     }
   });
     dialogRef.afterClosed().subscribe((result) => {
+      this.resetFilter();
       if (result) {
         this.fetchArticles();
       }
@@ -95,14 +98,11 @@ openEditDialog(id: number) {
     next: (article) => {
       const dialogRef = this.dialog.open(EditArticleComponent, {
         width: '500px',
-        data: {
-          article,
-          articleCategories: this.articleCategories,
-          bicycleCategories: this.bicycleCategories
-        }
+        data: { id }
       });
 
       dialogRef.afterClosed().subscribe((result) => {
+          this.resetFilter();
         if (result) this.fetchArticles();
       });
     },
