@@ -1,20 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateArticleDto } from '../models/article.create.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Inject } from '@angular/core';
-import { Item } from '../models/item.model';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ArticleService } from '../services/article.service';
-
 
 @Component({
   selector: 'add-article',
   templateUrl: './add.article.component.html',
-  styleUrls: ['./add.article.component.css']
+  styleUrls: ['./add.article.component.css'],
 })
-
 export class AddArticleComponent implements OnInit {
-
   articleForm!: FormGroup;
   formErrors: { [key: string]: string[] } = {};
   articleCategories = this.articleService.getArticleCategories();
@@ -23,10 +17,9 @@ export class AddArticleComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private articleService: ArticleService,
-    public dialogRef: MatDialogRef<AddArticleComponent>,
+    public dialogRef: MatDialogRef<AddArticleComponent>
   ) {}
 
-  
   ngOnInit(): void {
     this.articleForm = this.fb.group({
       name: ['', Validators.required],
@@ -42,34 +35,29 @@ export class AddArticleComponent implements OnInit {
 
   save(): void {
     if (this.articleForm.valid) {
-
-console.log('Submitting article:', this.articleForm.value);
+      console.log('Submitting article:', this.articleForm.value);
 
       this.articleService.createArticle(this.articleForm.value).subscribe({
         next: (result) => this.dialogRef.close(result),
         error: (error) => {
           if (error.status === 400 && typeof error.error === 'object') {
             this.formErrors = error.error;
-
-
           } else {
             console.error('Unexpected error:', error);
           }
-        }
+        },
       });
     } else {
       this.articleForm.markAllAsTouched(); // mark for UI feedback
     }
   }
 
-cancel(): void {
+  cancel(): void {
+    this.articleForm.reset();
     this.dialogRef.close();
   }
 
   getErrorMessages(field: string): string[] {
-
-    
     return this.formErrors[field] || [];
   }
-
 }
