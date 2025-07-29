@@ -1,26 +1,74 @@
-# ArticleManagementUi
+# Article Management System
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+This project is a full-stack application built with Angular (frontend) and ASP.NET Core Web API (backend) for managing bicycle article parts. It supports creating, reading, updating, and filtering articles with pagination.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Tech Stack
 
-## Code scaffolding
+Frontend :
+This project has generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 15+
+- Angular Material (UI components)
+- RxJS
+- TypeScript
+- CSS
 
-## Build
+Backend :
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- ASP.NET Core Web API (.NET 6/7)
+- Entity Framework Core
+- AutoMapper
+- SQLite - please use 
+- Swagger for API documentation
 
-## Running unit tests
+# Features
+- List all articles 
+- Filter articles by Article Category and Bicycle Category
+- Sort articles ny Net Weight and Article Category
+- Add, view, and update article
+- API and form validations
+- Responsive Angular Material UI
+- RESTful API 
+- Seed test data in SQLLight DB
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+# Setup Instructions
+ 
+ 1. Clone the both front-end and backend repos
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    front-end: [Clone the Repo](https://github.com/fareed-ali/article-management-ui.git)
+
+    Back-end:  [Clone the Repo](https://github.com/fareed-ali/article-management-api.git)
+
+2. Backend Setup (.NET Core API)
+   - Either run and open solution with visual studio in debug mode
+   - Or by Command
+        `cd Article_Management_API`
+        `dotnet restore`
+        `dotnet ef database update`  # Applies migrations
+        `dotnet run`
+
+    - The SQLLight Database will be created for the first time on application start.
+    - Use SQlLight DB Browser to open database if needed (https://sqlitebrowser.org/)
+    - On successfull build and run you can view swagger documentation. 
+    - The API will be available at `https://localhost:5001/swagger/index.html` , `http://localhost:5132/swagger/index.html` (or specified port)
+
+3. Frontend Setup (Angular)
+    - After cloning reporsitory
+    - Open in any code editor or visual code.
+    - open terminal and run below command
+      `cd article-management-ui`
+      `npm install`
+    - Run command `ng update` if required for missing dependencies 
+    - Navigate to `environments/environment.ts` and update the value of `apiBaseUrl` with running backend API address  
+    - Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.   
+
+# Endpoints
+- GET	/api/articles	List articles with filters & pagination
+- GET	/api/articles/{id}	Get article by ID
+- POST	/api/articles	Create new article
+- PUT	/api/articles/{id}	Update existing article
 
 ## Further help
 
