@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { EditArticleComponent } from './edit.article/edit.article.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { EditArticleComponent } from './edit.article/edit.article.component';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
+ 
   
   ],
   providers: [],

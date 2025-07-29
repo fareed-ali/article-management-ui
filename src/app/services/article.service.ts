@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Article } from '../models/article.list.model';
 import { CreateArticleDto } from '../models/article.create.model';
 import { UpdateArticleDto } from '../models/article.update.model';
 import { Item } from '../models/item.model';
 import { ArticleDetail } from '../models/article.detail.model';
-import { environment } from 'src/environments/environment';
+ import { environment } from 'src/environments/environment';
+import { PagedResult } from '../models/paged.result.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +17,26 @@ export class ArticleService {
 
   constructor(private http: HttpClient) {}
 
-  getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.baseAddress);
+  getArticles(
+    pageNumber: number,
+    pageSize: number,
+    articleCategoryId?: number,
+    bicycleCategoryIds?: number[]
+  ): Observable<PagedResult<Article>> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (articleCategoryId !== undefined && articleCategoryId !== 0) {
+      params = params.set('articleCategoryId', articleCategoryId.toString());
+    }
+
+    if (bicycleCategoryIds && bicycleCategoryIds.length > 0) {
+      bicycleCategoryIds.forEach((id) => {
+        params = params.append('bicycleCategoryIds', id.toString());
+      });
+    }
+    return this.http.get<PagedResult<Article>>(this.baseAddress, { params });
   }
 
   createArticle(article: CreateArticleDto): Observable<Article> {

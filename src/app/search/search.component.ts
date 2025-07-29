@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { ArticleService } from 'src/app/services/article.service';
 
 @Component({
   selector: 'search-article',
@@ -12,23 +13,15 @@ export class SearchComponent  implements OnInit {
   selectedArticleCategory: number = 0;
   selectedBicycleCategories: number[] = [];
 
-  // TODO: Can be fetch from endpoint
-  articleCategories = [
-      { id: 0, name: 'All' },
-      { id: 1, name: 'Hub' },
-      { id: 2, name: 'Crank arm' }
-    ];
+      articleCategories = this.articleService.getArticleCategories();
+   bicycleCategories = this.articleService.getBicycleCategories();
 
-  bicycleCategories = [
-      { id: 1, name: 'e-City' },
-      { id: 2, name: 'Road' },
-      { id: 3, name: 'e-Trekking' },
-      { id: 4, name: 'Gravel' },
-      { id: 5, name: 'Foldable' }
-    ];
-
+    constructor(
+       private articleService: ArticleService
+     ) {}
 
 ngOnInit(): void {
+  this.articleCategories.unshift({ id: 0, name: 'All' }); // Default Selected for search filter
     this.selectedArticleCategory=0;
   }
 
